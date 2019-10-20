@@ -1,0 +1,114 @@
+﻿scopeName: 'source.awnd'
+name: 'As Written Notes (dev)'
+fileTypes: ['awnd']
+patterns:[
+    #章节
+    {
+        match: '^\\s*(#+)([0-9]+\\.\\s*( {0,1}\\S+)+)'
+        captures:
+            1:
+                name: 'comment'
+            2:
+                name: 'meta.class'
+    }
+    # 主题
+    {
+        # 'match': '^(\\s+)[0-9]+\\.[^[\\s\\/\\/]]+'
+        match: '^\\s*[0-9]+\\.\\s*( {0,1}\\S+)+'
+        name: 'constant'
+    }
+    # 属性
+    {
+       # 因为属性有结尾全角冒号作分割，所以不需要像章节、主题那样麻烦的用空格数判断结束
+        match: '^\\s*([^即为如于有是了说设求]+|[^以][^下]|[^如][^下])：'
+        name: 'entity.name.function'
+    }
+    # 行内弱化 - 彻底的
+    {
+        match: '\\/\\/.*$'
+        name: 'comment'
+    }
+    # 行内弱化 - 仅最后一个连续字串
+    {
+        # 仅弱化前方的一个完整连续字串，以二个空格为结束
+        'match': '\\S+  $'
+        'name': 'comment'
+    }
+    # 行内弱化 - 允许一个空格
+    {
+        # 以多于两个空格为开始边界，三个空格为结束
+        # 可以推广为：对前方含n个连续空格的字串弱化，就是在结尾打n+2个空格
+        'match': '( {2,})*(\\S+ {0,1})+   $'
+        'name': 'comment'
+    }
+    # 术语
+    {
+        'match': '"([^"]*)"'
+        'captures':
+            '1':
+                'name': 'string'
+    }
+    # 强调
+    {
+        'match': '`([^`]*)`'
+        'captures':
+            '1':
+                'name': 'entity.name.tag'
+    }
+    # 域层级标识
+    {
+        'match': '\\s*(【.+：)'
+        'captures':
+            '1':
+                'name': 'keyword'
+    }
+    {
+        'match': '】 [^ ]$'
+        'name': 'keyword'
+    }
+    # 域层级标签
+    {
+        'match': '【待补】$'
+        'name': 'keyword'
+    }
+    # 块层级标签
+    {
+        'match': '\\[概括]$'
+        'name': 'keyword'
+    }
+    # 块层级标识
+    {
+        'match': '\\s*(\\[.+：)'
+        'captures':
+            '1':
+                'name': 'keyword'
+    }
+    {
+        # 规定‘]’前方必须为空，这样正常使用的时候也不会冲突
+        'match': '(^|[ \\t]+)\\] [^ ]$'
+        # 'match': '(^|[ \\t]+)|(.*：.*)\\] [^ ]$'
+        'name': 'keyword'
+    }
+    {
+        # 右方括号补偿（暂行）
+        'match': '.*(\\]) $'
+        'captures':
+            '1':
+                'name': 'keyword'
+    }
+    # 内容关键字（默认的）
+    {
+        'match': 'e\\.g\\.'
+        'name': 'entity.name.function'
+    }
+    # 文档签名
+    {
+        'match': '>>>>.*'
+        'name': 'support.function'
+    }
+    # 链接
+    {
+        'match': 'http:.*|https:.*'
+        'name': 'markup.link.underline'
+    }
+]
