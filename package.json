@@ -1,7 +1,7 @@
 {
     "name": "syntax-highlight-awnd",
     "scopeName": "source.awnd",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Syntax highlighting for awn note style (in developing)",
     "author": "Antisociallll <https://github.com/Antisociallll>",
     "repository": "https://github.com/Antisociallll/syntax-highlight-awnd",
